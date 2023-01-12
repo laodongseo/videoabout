@@ -1,0 +1,35 @@
+from PIL import Image  
+
+# 生成图片
+width = 400
+height = 300
+img  = Image.new( mode = "RGB", size = (width, height), color = (209, 123, 193) )
+img.save('aa.png')
+
+
+# 图片叠加
+def img_cover_img(outimg, bgimg,upimg):
+	img = Image.open(bgimg) 
+	img2 = Image.open(upimg) 
+	img.paste(img2, (0, 0))
+	img.save(outimg)
+
+img_cover_img(outimg='eee3.png')
+
+
+# 生成图片+词云
+def gen_randimg(outimg, width=400, height=300):
+	values = random.randint(1,255) ,random.randint(1,255) ,random.randint(1,255)
+	img  = Image.new(mode = "RGB", size = (width, height), color = values )
+	mask = np.array(img) #将图片转换为数组
+
+	text = '我爱 我 家房 产'
+	wc = wordcloud.WordCloud(font_path=r"C:\Windows\Fonts\simhei.ttf",width = 1000,height = 700,
+		mask=mask,
+		background_color='white',
+		max_words=1000,stopwords=['的'])
+	wc.generate(text) # 加载词云文本
+	wc.to_file(outimg)
+
+
+gen_randimg(outimg='eee3.png')
