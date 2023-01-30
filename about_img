@@ -1,4 +1,5 @@
-from PIL import Image  
+from PIL import Image, ImageDraw, ImageFont
+
 
 # 生成图片
 width = 400
@@ -15,6 +16,14 @@ def img_cover_img(outimg, bgimg,upimg):
 	img.save(outimg)
 
 img_cover_img(outimg='eee3.png')
+
+# 透明图片
+image = Image.new(mode='RGBA', size=(400, 50))
+draw_table = ImageDraw.Draw(im=image)
+draw_table.text(xy=(0, 0), text=u'fangchan', fill='#008B8B', font=ImageFont.truetype(r'C:\Windows\Fonts\simhei.ttf', 50))
+# image.show()  # 直接显示图片
+image.save('111.png', 'PNG')
+image.close()
 
 
 # 生成图片+词云
