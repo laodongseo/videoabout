@@ -6,6 +6,16 @@ from PIL import Image
 from  moviepy.editor import *
 import cv2,shutil
 
+#遮罩
+def add_zm(fg_in_bg_avi):
+    clip1 = VideoFileClip(fg_in_bg_avi)
+    clip3 = VideoFileClip(zm_video_path, has_mask=True)
+    video = CompositeVideoClip([clip1, clip3])
+    name = zm_video_path.split('.', 1)[0] + ".mp4"
+    video.write_videofile(name, audio=False)  # 先不加音频
+    video.close()
+    return name
+
 
 # 分离视频和音频
 def split_video_voice(video_path,audio_path,video_novoice_path):
