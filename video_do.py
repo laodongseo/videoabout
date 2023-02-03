@@ -6,6 +6,16 @@ from PIL import Image
 from  moviepy.editor import *
 import cv2,shutil
 
+
+from moviepy.editor import *
+  
+   
+# 保存图片帧 
+clip = VideoFileClip("dsa_geek.webm")
+# saving a frame at 2 second
+clip.save_frame("frame2.png", t = 2)
+
+
 #遮罩
 def add_zm(fg_in_bg_avi):
     clip1 = VideoFileClip(fg_in_bg_avi)
