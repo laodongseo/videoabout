@@ -16,6 +16,18 @@ video = mpe.VideoFileClip("input.video")
 mask = mpe.VideoFileClip("input.png").set_opacity(alpha) # alpha为蒙版的透明度，取值范围为0到1
 video = video.set_mask(mask)
 video.write_videofile("output.video")
+
+clip = clip.copy()
+clip = clip.add_mask()
+clip.mask.duration = clip.duration
+
+# 你可以使用MoviePy来为视频添加一个图片覆盖，并使其从左侧平移到右侧。下面是Python代码实现的例子:
+你可以使用MoviePy来为视频添加一个图片从左侧平移到右侧的效果。下面是Python代码实现的例子:
+from moviepy.editor import *
+video_clip = VideoFileClip("input.mp4")
+image_clip = ImageClip('image.png')
+video_with_image = CompositeVideoClip([video_clip, image_clip.set_pos((0, 0)).set_start(0).set_duration(video_clip.duration).set_end(video_clip.duration).set_pos(lambda t: (200*t, 0)).crossfadein(1)])
+video_with_image.write_videofile("output.mp4")
 """
 
 python 提取音频中的字幕转为SRT文件
