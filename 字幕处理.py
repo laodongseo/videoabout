@@ -30,6 +30,38 @@ video_with_image = CompositeVideoClip([video_clip, image_clip.set_pos((0, 0)).se
 video_with_image.write_videofile("output.mp4")
 """
 
+"""
+# 可以使用OpenCV中的cv2.VideoCapture函数来提取视频的SRT字幕。下面是一段编写代码来实现这一功能的例子:
+import cv2 
+# 加载视频文件 
+cap = cv2.VideoCapture('my_video.avi') 
+# 初始化视频帧索引和时间戳 
+frame_index = 0 
+frame_time = 0 
+# 初始化SMPTE时间码 
+srt_timecode = '' 
+# 打开字幕文件 
+subtitle = open('subtitle.srt', 'w') 
+# 读取视频帧 
+while (cap.isOpened()): 
+    ret, frame = cap.read() 
+    # 检查帧是否存在 
+    if not ret: 
+       break 
+    # 记录视频帧的索引和时间戳 
+    frame_index += 1 
+    frame_time = int(cap.get(cv2.CAP_PROP_POS_MSEC)) 
+    # 将时间戳转换为SMPTE时间码 
+    srt_timecode = str(datetime.timedelta(milliseconds=frame_time)) 
+    # 写入字幕文件 
+    subtitle.write(str(frame_index) + '\n') 
+    subtitle.write(srt_timecode + ' --> ' + srt_timecode + '\n') 
+    subtitle.write(str(frame) + '\n') 
+subtitle.close() 
+cap.release()
+"""
+
+
 python 提取音频中的字幕转为SRT文件
 
 	本文介绍如何使用python提取音频中的字幕并转换为SRT文件：
