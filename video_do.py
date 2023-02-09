@@ -15,6 +15,15 @@ clip = VideoFileClip("dsa_geek.webm")
 # saving a frame at 2 second
 clip.save_frame("frame2.png", t = 2)
 
+# 设置图片从左侧平移到右侧
+from moviepy.editor import *
+video_clip = VideoFileClip(r"D:\cms后台采纳.mkv")
+image_clip = ImageClip('123.png')
+pos_value  = int(video_clip.size[0] / video_clip.duration)
+video_with_image = CompositeVideoClip([video_clip, 
+	image_clip.set_pos((0, 0)).set_start(0).set_duration(video_clip.duration).set_end(video_clip.duration).set_pos(lambda t: (pos_value*t, 0)).crossfadein(1)])
+video_with_image.write_videofile("output.mp4")
+
 
 #遮罩
 def add_zm(fg_in_bg_avi):
