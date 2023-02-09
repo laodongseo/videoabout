@@ -1,5 +1,21 @@
+# 你可以用ffmpeg来添加SRT字幕，设置颜色和大小，只需要在终端输入以下命令即可添加到视频中:
+ffmpeg -i input.video -i input.srt -c:v copy -c:a copy -c:s srt -fonts-color 16777215 -font-size 24 output.video
+			
+# 你可以用ffmpeg来提取SRT字幕:	
+ffmpeg -i input.mp4 -vf subtitles=input.srt output.mp4		
+			
+# 你可以使用ffmpeg来替换视频SRT字幕中的关键词，只需要在终端输入以下命令即可实现，其中Name代表你要替换的关键词，value表示你要替换成的值。:
+ffmpeg -i input.video -i input.srt -vf subtitles=input.srt:force_style='Name=value,Name=value' -c:v copy -c:a copy -c:s srt output.video
 
+# 你可以用ffmpeg来为视频添加一层蒙版，只需要在终端输入以下命令即可，其中alpha_param表示蒙版的透明度，取值范围为0到1，数值越大蒙版越不透明。:
+ffmpeg -i input.video -i input.png -filter_complex "overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:alpha=alpha_param" -c:v copy -c:a copy output.video
 
+# 你可以使用moviepy来为视频添加一层蒙版，只需要在终端输入以下命令即可实现:
+import moviepy.editor as mpe
+video = mpe.VideoFileClip("input.video")
+mask = mpe.VideoFileClip("input.png").set_opacity(alpha) # alpha为蒙版的透明度，取值范围为0到1
+video = video.set_mask(mask)
+video.write_videofile("output.video")
 """
 
 python 提取音频中的字幕转为SRT文件
