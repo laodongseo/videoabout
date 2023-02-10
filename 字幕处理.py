@@ -1,8 +1,38 @@
-# 你可以用ffmpeg来添加SRT字幕，设置颜色和大小，只需要在终端输入以下命令即可添加到视频中:
-ffmpeg -i input.video -i input.srt -c:v copy -c:a copy -c:s srt -fonts-color 16777215 -font-size 24 output.video
-			
-# 你可以用ffmpeg来提取SRT字幕:	
-ffmpeg -i input.mp4 -vf subtitles=input.srt output.mp4		
+"""
+# 分离SRT字幕
+ffmpeg -i input_video.mp4 -c:s srt -an -vn -codec:s srt output_subtitles.srt
+
+-i input_video.mp4：指定输入视频文件的路径
+-c:s srt：指定字幕的格式为SRT
+-an：禁止输出音频流
+-vn：禁止输出视频流
+-codec:s srt：指定字幕的编码格式为SRT
+output_subtitles.srt：指定输出字幕文件的路径
+
+# 添加SRT字幕到视频指定字体大小颜色和自动换行
+ffmpeg -i input_video.mp4 -vf "ass=subtitles.srt:force_style='Fontsize=24,PrimaryColour=&Hffffff&,OutlineColour=&H000000&,BorderStyle=3,Alignment=2,WrapStyle=2'" -c:v copy -c:a copy -c:s copy output_video.mp4
+
+-i input_video.mp4：指定输入视频文件的路径
+-vf "ass=subtitles.srt:force_style='Fontsize=24,PrimaryColour=&Hffffff&,OutlineColour=&H000000&,BorderStyle=3,Alignment=2'"：指定字幕的格式为SRT，并设置字体的颜色、字体大小和显示位置
+-c:v copy -c:a copy -c:s copy：指定保持视频、音频和字幕的编码格式不变
+output_video.mp4：指定输出视频文件的路径
+WrapStyle=2：指定自动换行显示字体
+
+其中，Fontsize 指定字体大小，PrimaryColour 指定字体颜色，OutlineColour 指定字体轮廓颜色，BorderStyle 指定字体边框样式，Alignment 指定字体显示位置。您可以根据需要调整这些参数的值。
+
+# 清除视频的字幕并且保留原声音
+ffmpeg -i input_video.mp4 -map 0:v -map 0:a -c:v copy -c:a copy output_video.mp4
+
+-i input_video.mp4：输入视频文件
+-map 0:v：保留视频流（0 是输入视频文件的编号，v 表示视频流）
+-map 0:a：保留音频流（0 是输入视频文件的编号，a 表示音频流）
+-c:v copy：使用原有的视频编码器
+-c:a copy：使用原有的音频编码器
+output_video.mp4：输出视频文件
+
+"""
+
+
 			
 # 你可以使用ffmpeg来替换视频SRT字幕中的关键词，只需要在终端输入以下命令即可实现，其中Name代表你要替换的关键词，value表示你要替换成的值。:
 ffmpeg -i input.video -i input.srt -vf subtitles=input.srt:force_style='Name=value,Name=value' -c:v copy -c:a copy -c:s srt output.video
