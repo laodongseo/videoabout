@@ -33,6 +33,34 @@ output_video.mp4：输出视频文件
 """
 
 
+"""
+# 创造雪花图片 
+from moviepy.editor import VideoFileClip, ImageClip, CompositeVideoClip
+import numpy as np
+import cv2
+
+def snowflakes(frame_shape, snowflake_count=200, snowflake_size=2):
+	frame = np.zeros(frame_shape + [3], dtype=np.uint8)
+	for i in range(snowflake_count):
+		x = np.random.randint(0, frame_shape[1])
+		y = np.random.randint(0, frame_shape[0])
+		cv2.circle(frame, (x, y), snowflake_size, (255, 255, 255), -1)
+	return frame
+
+def add_snowflakes(input_video):
+	snow = snowflakes(input_video.size)
+	snow_clip = ImageClip(snow, ismask=False)
+	snow_clip = snow_clip.set_duration(input_video.duration)
+	clip = CompositeVideoClip([input_video, snow_clip], use_bgclip=False)
+	return clip
+
+path = r'D:\cms后台采纳.mkv'
+input_video = VideoFileClip(path)
+output_video = add_snowflakes(input_video)
+output_video.write_videofile("output.mp4")
+
+"""
+
 			
 # 你可以使用ffmpeg来替换视频SRT字幕中的关键词，只需要在终端输入以下命令即可实现，其中Name代表你要替换的关键词，value表示你要替换成的值。:
 ffmpeg -i input.video -i input.srt -vf subtitles=input.srt:force_style='Name=value,Name=value' -c:v copy -c:a copy -c:s srt output.video
