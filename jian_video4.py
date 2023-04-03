@@ -1,5 +1,10 @@
 # coding:utf8
 """
+pip install opencv-python -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install pandas -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install numpy -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install wordcloud -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install shutil -i https://pypi.tuna.tsinghua.edu.cn/simple
 一：
  1）获取原视频的尺寸、帧数、时长
  2）根据尺寸、帧数、时长随机生成几个背景图
